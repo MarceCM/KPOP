@@ -1,4 +1,4 @@
-# KPOP
+# KPOP - Projeto Compiladores
 Integrantes:
 * Marcella Costa    RA: 22.119.023-4 
 * Mateus Queiroz    RA: 22.219.016-7
