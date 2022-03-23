@@ -38,3 +38,17 @@
 # \n    | ^\\n$
 # \t    | ^\\t$
 # ;     | ^\;$
+
+## Identificadores
+
+##Boolean 
+
+#^(Cham | Geojis)$
+
+#Inteiro
+
+#^(-|\+)?\d+$
+
+##Float 
+
+#^(-|\+)?\d*(.\d+)?$
