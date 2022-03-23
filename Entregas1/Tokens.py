@@ -7,15 +7,34 @@
 # Yasmin Vitorino
 
 ## Palavras-chave
-# if        |       | ^()$
-# elif      |       | ^()$
-# else      |       | ^()$
-# for       |    | ^()$
-# while     |      | ^()$
-# functions | comeback   | ^()$
-# return    | kamsamida  | ^()$
-# print     | annyeong   | ^()$
-# int       | yg         | ^()$
-# float     | jyp        | ^()$
-# bool      | sm         | ^()$
-# string    | hybe       | ^()$
+
+#           | TOKEN      | LEXEMA
+
+# if        | RAK        | ^(rak)$
+# elif      | CAK        | ^(cak)$
+# else      | PAK        | ^(pak)$
+# for       | DAESANG    | ^(daesang)$
+# while     | BONSANG    | ^(bonsang)$
+# functions | COMEBACK   | ^(comeback)$
+# return    | KAMSAMIDA  | ^(kamsamida)$
+# print     | ANNYEONG   | ^(annyeong)$
+# int       | YG         | ^(yg)$
+# float     | JYP        | ^(jyp)$
+# bool      | SM         | ^(sm)$
+# string    | HYBE       | ^(hybe)$
+
+## Operadores
+
+#       | TOKEN       | LEXEMA
+
+# +     | INKIGAYO    |       ^\+$
+# -     | MCORE       |       ^\-$
+# *     | MBANK       |       ^\*$
+# /     | MCOUNTDOWN  |       ^\/$
+# =     | MELON       |       ^=$
+# ==    | KAKAO       |       ^(==)$
+# &&    | MNET        |       ^(&&)$
+# ||    | DISBAND     |       ^(||)$
+# \n    | ^\\n$
+# \t    | ^\\t$
+# ;     | ^\;$
