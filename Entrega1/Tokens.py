@@ -1,14 +1,14 @@
 #### Compilador
 
-## Integrantes
+### Integrantes
 # Marcella Costa
 # Mateus Queiroz
 # Milena Teixeira
 # Yasmin Vitorino
 
-## Palavras-chave
+### Palavras-chave
 
-#           | TOKEN      | LEXEMA
+##           | TOKEN      | LEXEMA
 
 # if        | RAK        | ^(rak)$
 # elif      | CAK        | ^(cak)$
@@ -23,9 +23,9 @@
 # bool      | SM         | ^(sm)$
 # string    | HYBE       | ^(hybe)$
 
-## Operadores
+### Operadores
 
-#       | TOKEN       | LEXEMA
+##       | TOKEN       | LEXEMA
 
 # +     | INKIGAYO    |       ^\+$
 # -     | MCORE       |       ^\-$
@@ -39,16 +39,24 @@
 # \t    | ^\\t$
 # ;     | ^\;$
 
-## Identificadores
+### Identificadores
 
-##Boolean 
+## Boolean 
 
 #^(Cham | Geojis)$
 
-#Inteiro
+## Inteiro
 
 #^(-|\+)?\d+$
 
-##Float 
+## Float
 
-#^(-|\+)?\d*(.\d+)?$
+#^(-|\+)?\d+(.\d+)?$
+
+## String
+
+# ^¨[\s\S]*¨$
+
+## Identificador (Variável)
+
+# ^([a-zA-Z])+(\w)*
