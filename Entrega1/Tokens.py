@@ -8,7 +8,7 @@
 
 ### Palavras-chave
 
-##           | TOKEN      | LEXEMA
+##          | TOKEN      | EXPRESSÃO REGULAR 
 
 # if        | RAK        | ^(rak)$
 # elif      | CAK        | ^(cak)$
@@ -25,7 +25,7 @@
 
 ### Operadores
 
-##       | TOKEN       | LEXEMA
+##      | TOKEN       | EXPRESSÃO REGULAR 
 
 # +     | INKIGAYO    |       ^\+$
 # -     | MCORE       |       ^\-$
@@ -35,9 +35,9 @@
 # ==    | KAKAO       |       ^(==)$
 # &&    | MNET        |       ^(&&)$
 # ||    | DISBAND     |       ^(||)$
-# \n    | ^\\n$
-# \t    | ^\\t$
-# ;     | ^\;$
+# \n    | \n          |       ^\\n$
+# \t    | \t          |       ^\\t$
+# ;     |    ;        |       ^\;$
 
 ### Identificadores
 
