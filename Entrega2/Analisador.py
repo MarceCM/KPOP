@@ -77,19 +77,19 @@ class Lexer(object):
       #verifica se o lexema encontrado é um operador
       if self.current_char == "+":
         self.advance()
-        return Token(PLUS, "+")
+        return Token(INKIGAYO, "+")
 
       if self.current_char == "-":
         self.advance()
-        return Token(MINUS, "-")
+        return Token(MCORE, "-")
 
       if self.current_char == "*":
         self.advance()
-        return Token(MUL, "*")
+        return Token(MBANK, "*")
 
       if self.current_char == "/":
         self.advance()
-        return Token(DIV, "/")
+        return Token(MCOUNTDOWN, "/")
 
       #verifica se o lexema encontrado é um parenteses (abrindo ou fechando)
       if self.current_char == "(":
