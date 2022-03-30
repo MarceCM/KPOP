@@ -35,9 +35,9 @@
 # ==    | KAKAO       |       ^(==)$
 # &&    | MNET        |       ^(&&)$
 # ||    | DISBAND     |       ^(||)$
-# \n    | \n          |       ^\\n$
-# \t    | \t          |       ^\\t$
-# ;     |    ;        |       ^\;$
+# \n    | SULJIBN     |       ^\\n$
+# \t    | SULJIBT     |       ^\\t$
+# ;     | SEMIKOLLON  |       ^\;$
 
 ### Identificadores
 
