@@ -3,8 +3,9 @@
 #Definir os tokens da minha linguagem
 
 #EOF: token que representa o fim de um arquivo (end of file)
-INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF = (
-  "INTEGER", "PLUS", "MINUS", "MUL", "DIV", "(", ")", "EOF"
+
+IF, ELIF, ELSE, FOR, WHILE, FUNCTIONS, RETURN, EOF, PRINT, INT, FLOAT, BOOL, STRING= (
+  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE"
 )
 
 #classe Token, para representar os tokens durante a compilação
