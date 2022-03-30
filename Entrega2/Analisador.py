@@ -4,8 +4,8 @@
 
 #EOF: token que representa o fim de um arquivo (end of file)
 
-RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM, HYBE, INKIGAYO, MCORE,MBANK,MCOUNTDOWN,MELON,KAKAO,MNET,DISBAND = (
-  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "+", "-", "*", "/", "=", "==", "&&", "||"
+RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM, HYBE, INKIGAYO, MCORE,MBANK,MCOUNTDOWN,MELON,KAKAO,MNET,DISBAND, SULJIBN, SULJIBT, SEMIKOLLON = (
+  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "+", "-", "*", "/", "=", "==", "&&", "||", "\n", "\t", ";"
 )
 
 #classe Token, para representar os tokens durante a compilação
