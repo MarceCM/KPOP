@@ -4,8 +4,8 @@
 
 #EOF: token que representa o fim de um arquivo (end of file)
 
-IF, ELIF, ELSE, FOR, WHILE, FUNCTIONS, RETURN, EOF, PRINT, INT, FLOAT, BOOL, STRING= (
-  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE"
+RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM, HYBE, INKIGAYO, MCORE,MBANK,MCOUNTDOWN,MELON,KAKAO,MNET,DISBAND = (
+  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "+", "-", "*", "/", "=", "==", "&&", "||"
 )
 
 #classe Token, para representar os tokens durante a compilação
