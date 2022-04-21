@@ -22,6 +22,7 @@
 # float     | JYP        | ^(jyp)$
 # bool      | SM         | ^(sm)$
 # string    | HYBE       | ^(hybe)$
+# identifier| BIAS       | ^(bias)$
 
 ### Operadores
 
