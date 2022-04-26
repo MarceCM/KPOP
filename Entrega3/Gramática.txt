@@ -1,0 +1,21 @@
+Realiza Declaração de Variáveis
+dec : tipo iden (banjeom iden)*  
+tipo : YG | JYP | SM | HYBE
+iden : BIAS  
+  
+
+Realizar atribuição de valores em variáveis
+atr: iden eq value 
+eq : MELON
+value : numeric | boolean | string 
+
+Realizar Operações Aritméticas entre Variáveis:
+cont : value (opr value)*
+opr: inkigayo | mcore | mbank | mcountdown 
+
+Escrever estruturas condicionais (if,else)
+
+estrCond:  condi (opcio)* doisPunto suljbt 
+condi : Rak | cak | pak
+opcio :  iden oprCond (iden | value)
+oprCond: kakao | mnet | disband | maior | menor | maior igual | menor igual
