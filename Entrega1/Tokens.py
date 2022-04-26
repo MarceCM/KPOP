@@ -22,6 +22,11 @@
 # float     | JYP        | ^(jyp)$
 # bool      | SM         | ^(sm)$
 # string    | HYBE       | ^(hybe)$
+# identifier| BIAS       | ^([a-zA-Z])+(\w)*
+# numeric   |            | ^(-|\+)?\d+$ | ^(-|\+)?\d+(.\d+)?$
+# boolean   |            | ^(Cham | Geojis)$
+# string    |            | ^¨[\s\S]*¨$
+
 
 ### Operadores
 
@@ -38,6 +43,12 @@
 # \n    | SULJIBN     |       ^\\n$
 # \t    | SULJIBT     |       ^\\t$
 # ;     | SEMIKOLLON  |       ^\;$
+# ,     | BANJEOM     |       ^\,$
+# :     |             |       ^\:$
+# >     |             |       ^\>$
+# <     |             |       ^\<$
+# >=    |             |       ^\>=$
+# <=    |             |       ^\<=$
 
 ### Identificadores
 
