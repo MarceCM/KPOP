@@ -23,9 +23,9 @@
 # bool      | SM         | ^(sm)$
 # string    | HYBE       | ^(hybe)$
 # identifier| BIAS       | ^([a-zA-Z])+(\w)*
-# numeric   |            | ^(-|\+)?\d+$ | ^(-|\+)?\d+(.\d+)?$
-# boolean   |            | ^(Cham | Geojis)$
-# string    |            | ^¨[\s\S]*¨$
+# numeric   | OPPA       | ^(-|\+)?\d+$ | ^(-|\+)?\d+(.\d+)?$
+# boolean   | EONNI      | ^(Cham | Geojis)$
+# string    | NOONA      | ^¨[\s\S]*¨$
 
 
 ### Operadores
@@ -44,11 +44,13 @@
 # \t    | SULJIBT     |       ^\\t$
 # ;     | SEMIKOLLON  |       ^\;$
 # ,     | BANJEOM     |       ^\,$
-# :     |             |       ^\:$
-# >     |             |       ^\>$
-# <     |             |       ^\<$
-# >=    |             |       ^\>=$
-# <=    |             |       ^\<=$
+# :     | DUJEOM      |       ^\:$
+# >     | BLACKPINK   |       ^\>$
+# <     | BTS         |       ^\<$
+# >=    | LOONA       |       ^\>=$
+# <=    | WJSN        |       ^\<=$
+# (     | LPAREN      |       ^\($
+# )     | RPAREN      |       ^\)$
 
 ### Identificadores
 
