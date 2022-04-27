@@ -4,8 +4,11 @@
 
 #EOF: token que representa o fim de um arquivo (end of file)
 
-RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM, HYBE, INKIGAYO, MCORE,MBANK,MCOUNTDOWN,MELON,KAKAO,MNET,DISBAND, SULJIBN, SULJIBT, SEMIKOLLON = (
-  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "+", "-", "*", "/", "=", "==", "&&", "||", "\n", "\t", ";"
+from numpy import True_
+
+
+RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM, HYBE, INKIGAYO, MCORE,MBANK,MCOUNTDOWN,MELON,KAKAO,MNET,DISBAND, SULJIBN, SULJIBT, SEMIKOLLON, LPAREN, RPAREN = (
+  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "INKIGAYO", "MCORE", "MBANK", "MCOUNTDOWN", "MELON", "KAKAO", "MNET", "DISBAND", "SULJIBN", "SULJIBT", "SEMIKOLLON", "(", "R"
 )
 
 #classe Token, para representar os tokens durante a compilação
@@ -58,6 +61,86 @@ class Lexer(object):
       result += self.current_char
       self.advance()
     return int(result)
+  
+  #funcao que verifica se um lexema lido eh uma string
+  def string(self):
+    #variavel para verificar se o char eh aspas
+    is_aspas = False
+
+    #variavel que vai guardar os digitos da string
+    result = ''
+
+    while self.current_char is not None:
+      if self.current_char == "'" or self.current_char == '"':
+        is_aspas = True
+      else:
+        result += self.current_char
+        is_aspas = False
+
+      self.advance()
+
+    if is_aspas and len(result) != 0:
+      return str(result)
+
+  def defineFloat(self):
+    #variavel para concatecar numeros
+    result = ""
+    while self.current_char is not None:
+      if self.current_char.isdigit():
+        result += self.current_char
+      elif self.current_char == '.':
+        result += self.current_char
+      self.advance()
+    return float(result)
+
+  def boolean(self):
+    result = ''
+    estado = 0
+
+    while estado != 'fim':
+      if estado == 0:
+        if self.current_char in ['C', 'G']:
+          result += self.current_char
+          estado = 1
+        else:
+          break
+      elif estado == 1:
+        if self.current_char == 'h' or self.current_char == 'e':
+          result += self.current_char
+          estado = 2
+        else:
+          break
+      elif estado == 2:
+        if self.current_char == 'a' or self.current_char == 'o':
+          result += self.current_char
+          estado = 3
+        else:
+          break
+      elif estado == 3:
+        if self.current_char == 'm':
+          result += self.current_char
+          estado = 'fim'
+        elif self.current_char == 'j':
+          result += self.current_char
+          estado = 4
+        else:
+          break
+      elif estado == 4:
+        if self.current_char == 'i':
+          result += self.current_char
+          estado = 5
+        else:
+          break
+      elif estado == 5:
+        if self.current_char == 's':
+          result += self.current_char
+          estado = 'fim'
+        else:
+          break
+      self.advance()
+
+    return result if result in ['Cham', 'Geojis'] else None
+
 
   #funcao que implementa o "core/nucleo" do analisador lexico
   #vai quebrar a sentença/arquivo de texto em vários tokens, um por vez
@@ -70,9 +153,22 @@ class Lexer(object):
         continue
 
       #verifica se o caractere atual eh um digito
-      if self.current_char.isdigit():
-        #retorno um Token do tipo INTEGER, com valor referente ao lexema sendo processado caractere a caractere
-        return Token(INTEGER, self.integer())
+      if self.current_char.isdigit() and '.' not in self.text:
+        #retorno um Token do tipo YG, com valor referente ao lexema sendo processado caractere a caractere
+        return Token(YG, self.integer())
+
+      #verificando se o primeiro char é C (booleano)
+      if self.text[0] == 'C' or self.text[0] == 'G':
+        return Token(SM, self.boolean())
+
+      #verifica se o caractere atual eh aspas
+      if self.current_char == '"' or self.current_char == "'":
+        #retorno um Token do tipo HYBE, com valor referente ao lexema sendo processado caractere a caractere
+        return Token(HYBE, self.string())
+
+      #verifica se o text contem . para ser considerado um float
+      if '.' in self.text and '"' not in self.text and "'" not in self.text:
+        return Token(JYP, self.defineFloat())
 
       #verifica se o lexema encontrado é um operador
       if self.current_char == "+":
@@ -100,6 +196,12 @@ class Lexer(object):
         self.advance()
         return Token(RPAREN, ")")
 
+      #tratamento de erros para não strings
+      if '"' not in self.text and "'" not in self.text:
+        for char in self.text:
+          if not char.isdigit:
+            self.error()
+
       #se nenhum dos lexemas acima foi encontrado, gera um erro
       self.error()
 
@@ -109,19 +211,15 @@ class Lexer(object):
 #programa principal que invoca o analisador lexico/Lexer
 def main():
   #le o input de texto
-  while True:
-    try:
-      try:
-        text = raw_input("myLexer> ")
-      except NameError:
-        text = input("myLexer> ")
-    except EOFError:
-      break
-    if not text:
-      continue
-    
+  try:
+    with open('testes.txt', 'r') as arquivo:
+      lexemas = arquivo.readlines()[0].split(' ')
+  except FileNotFoundError:
+    print('Arquivo não encontrado, verifique.')
+
+  for lexema in lexemas:
     #instancio o lexer
-    lexer = Lexer(text)
+    lexer = Lexer(lexema)
     '''Imprime todos os tokens '''
     #reconheco o primeiro token do input
     token = lexer.get_next_token()

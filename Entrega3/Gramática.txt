@@ -1,21 +1,24 @@
-Realiza Declaração de Variáveis
-dec : tipo iden (banjeom iden)*  
+sijag: dec | atr | cont | estrCond | e 
+dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*
 tipo : YG | JYP | SM | HYBE
-iden : BIAS  
-  
+iden : BIAS 
 
-Realizar atribuição de valores em variáveis
-atr: iden eq value 
-eq : MELON
-value : numeric | boolean | string 
+atr: iden MELON value (SULJIBN sijag)*
+value : OPPA | EONNI | NOONA 
 
-Realizar Operações Aritméticas entre Variáveis:
-cont : value (opr value)*
-opr: inkigayo | mcore | mbank | mcountdown 
+cont : value (opr value)* (SULJIBN sijag)*
+opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN 
 
-Escrever estruturas condicionais (if,else)
-
-estrCond:  condi (opcio)* doisPunto suljbt 
-condi : Rak | cak | pak
+estrCond:  condi (opcio)* SULJIBT DUJEOM bloco SULJIBT
+condi : RAK | CAK | PAK
 opcio :  iden oprCond (iden | value)
-oprCond: kakao | mnet | disband | maior | menor | maior igual | menor igual
+oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN
+bloco: sijag
+
+
+int x, y
+
+x = 1
+
+if x > 0:
+    y = 0
