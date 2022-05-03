@@ -4,11 +4,8 @@
 
 #EOF: token que representa o fim de um arquivo (end of file)
 
-from numpy import True_
-
-
-RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM, HYBE, INKIGAYO, MCORE,MBANK,MCOUNTDOWN,MELON,KAKAO,MNET,DISBAND, SULJIBN, SULJIBT, SEMIKOLLON, LPAREN, RPAREN = (
-  "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "INKIGAYO", "MCORE", "MBANK", "MCOUNTDOWN", "MELON", "KAKAO", "MNET", "DISBAND", "SULJIBN", "SULJIBT", "SEMIKOLLON", "(", "R"
+RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM, HYBE,BIAS,OPPA,EONNI,NOONA,INKIGAYO,MCORE,MBANK,MCOUNTDOWN,MELON,KAKAO,MNET,DISBAND, SULJIBN, SULJIBT, SEMIKOLLON, BANJEOM, DUJEOM, BLACKPINK, BTS, LOONA, WJSN, LPAREN, RPAREN = (
+"RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "BIAS","OPPA","EONNI","NOONA", "INKIGAYO", "MCORE", "MBANK", "MCOUNTDOWN", "MELON", "KAKAO", "MNET", "DISBAND", "SULJIBN", "SULJIBT", "SEMIKOLLON", "BANJEOM", "DUJEOM", "BLACKPINK", "BTS", "LOONA", "WJSN", "LPAREN", "RPAREN"
 )
 
 #classe Token, para representar os tokens durante a compilação
@@ -28,11 +25,11 @@ class Token(object):
 class Lexer(object):
   def __init__(self, text):
     #string do usuario
-    self.text = text
+    self.text = text #"string"
     #indice que marca a posicao do texto (o caractere corrente sendo processado no texto)
     self.pos = 0
     #guarda o caractere que está sendo analisado de fato
-    self.current_char = self.text[self.pos]
+    self.current_char = self.text[self.pos]#"
 
   #para retorno de erro
   def error(self):
@@ -94,52 +91,55 @@ class Lexer(object):
     return float(result)
 
   def boolean(self):
-    result = ''
-    estado = 0
+    result = self.text
+    self.current_char = None
 
-    while estado != 'fim':
-      if estado == 0:
-        if self.current_char in ['C', 'G']:
-          result += self.current_char
-          estado = 1
-        else:
-          break
-      elif estado == 1:
-        if self.current_char == 'h' or self.current_char == 'e':
-          result += self.current_char
-          estado = 2
-        else:
-          break
-      elif estado == 2:
-        if self.current_char == 'a' or self.current_char == 'o':
-          result += self.current_char
-          estado = 3
-        else:
-          break
-      elif estado == 3:
-        if self.current_char == 'm':
-          result += self.current_char
-          estado = 'fim'
-        elif self.current_char == 'j':
-          result += self.current_char
-          estado = 4
-        else:
-          break
-      elif estado == 4:
-        if self.current_char == 'i':
-          result += self.current_char
-          estado = 5
-        else:
-          break
-      elif estado == 5:
-        if self.current_char == 's':
-          result += self.current_char
-          estado = 'fim'
-        else:
-          break
-      self.advance()
+    # while estado != 'fim':
+    #   if estado == 0:
+    #     if self.current_char in ['C', 'G']:
+    #       result += self.current_char
+    #       estado = 1
+    #     else:
+    #       break
+    #   elif estado == 1:
+    #     if self.current_char == 'h' or self.current_char == 'e':
+    #       result += self.current_char
+    #       estado = 2
+    #     else:
+    #       break
+    #   elif estado == 2:
+    #     if self.current_char == 'a' or self.current_char == 'o':
+    #       result += self.current_char
+    #       estado = 3
+    #     else:
+    #       break
+    #   elif estado == 3:
+    #     if self.current_char == 'm':
+    #       result += self.current_char
+    #       estado = 'fim'
+    #     elif self.current_char == 'j':
+    #       result += self.current_char
+    #       estado = 4
+    #     else:
+    #       break
+    #   elif estado == 4:
+    #     if self.current_char == 'i':
+    #       result += self.current_char
+    #       estado = 5
+    #     else:
+    #       break
+    #   elif estado == 5:
+    #     if self.current_char == 's':
+    #       result += self.current_char
+    #       estado = 'fim'
+    #     else:
+    #       break
+    #   self.advance()
 
     return result if result in ['Cham', 'Geojis'] else None
+
+  def identifier(self):
+    pass
 
 
   #funcao que implementa o "core/nucleo" do analisador lexico
@@ -158,8 +158,9 @@ class Lexer(object):
         return Token(YG, self.integer())
 
       #verificando se o primeiro char é C (booleano)
-      if self.text[0] == 'C' or self.text[0] == 'G':
-        return Token(SM, self.boolean())
+      if self.text == 'Cham' or self.text == 'Geojis':
+        self.current_char = None
+        return Token(EONNI, self.text)
 
       #verifica se o caractere atual eh aspas
       if self.current_char == '"' or self.current_char == "'":
