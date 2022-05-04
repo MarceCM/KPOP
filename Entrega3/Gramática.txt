@@ -1,7 +1,7 @@
 sijag: dec | atr | cont | estrCond | e 
 dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*
 tipo : YG | JYP | SM | HYBE - Ok
-iden : BIAS 
+iden : BIAS - Ok
 
 atr: iden MELON value (SULJIBN sijag)*
 value : OPPA | EONNI | NOONA - Ok
@@ -15,10 +15,18 @@ opcio :  iden oprCond (iden | value)
 oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN -Ok
 bloco: sijag
 
+mateus:
+atr
 
-int x, y
+milena:
+cont
+estrcond
 
-x = 1
+yasmin:
+dec
+opcio
+opr
 
-if x > 0:
-    y = 0
+marcella:
+bloco
+sijag

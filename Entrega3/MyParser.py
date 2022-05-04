@@ -209,6 +209,13 @@ class Interpreter(object):
   def error(self):
     raise Exception('Invalid syntax')
 
+  def iden(self):
+    """iden: BIAS"""
+    token = self.current_token
+    if token.type == BIAS:
+      self.eat(BIAS)
+      return token.value
+  
   def tipo(self):
     """tipo : YG | JYP | SM | HYBE"""
     token = self.current_token
