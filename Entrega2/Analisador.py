@@ -94,48 +94,6 @@ class Lexer(object):
     result = self.text
     self.current_char = None
 
-    # while estado != 'fim':
-    #   if estado == 0:
-    #     if self.current_char in ['C', 'G']:
-    #       result += self.current_char
-    #       estado = 1
-    #     else:
-    #       break
-    #   elif estado == 1:
-    #     if self.current_char == 'h' or self.current_char == 'e':
-    #       result += self.current_char
-    #       estado = 2
-    #     else:
-    #       break
-    #   elif estado == 2:
-    #     if self.current_char == 'a' or self.current_char == 'o':
-    #       result += self.current_char
-    #       estado = 3
-    #     else:
-    #       break
-    #   elif estado == 3:
-    #     if self.current_char == 'm':
-    #       result += self.current_char
-    #       estado = 'fim'
-    #     elif self.current_char == 'j':
-    #       result += self.current_char
-    #       estado = 4
-    #     else:
-    #       break
-    #   elif estado == 4:
-    #     if self.current_char == 'i':
-    #       result += self.current_char
-    #       estado = 5
-    #     else:
-    #       break
-    #   elif estado == 5:
-    #     if self.current_char == 's':
-    #       result += self.current_char
-    #       estado = 'fim'
-    #     else:
-    #       break
-    #   self.advance()
-
     return result if result in ['Cham', 'Geojis'] else None
 
   def identifier(self):
@@ -156,6 +114,8 @@ class Lexer(object):
       if self.current_char.isdigit() and '.' not in self.text:
         #retorno um Token do tipo YG, com valor referente ao lexema sendo processado caractere a caractere
         return Token(YG, self.integer())
+      
+      
 
       #verificando se o primeiro char é C (booleano)
       if self.text == 'Cham' or self.text == 'Geojis':
@@ -171,18 +131,10 @@ class Lexer(object):
       if '.' in self.text and '"' not in self.text and "'" not in self.text:
         return Token(JYP, self.defineFloat())
 
-      #verifica se o lexema encontrado é um operador
-      if self.current_char == "+":
-        self.advance()
-        return Token(INKIGAYO, "+")
-        
+      #verifica se são palavras reservadas
       if self.text == "kamsamida":
         self.current_char = None
         return Token(KAMSAMIDA, self.text)
-      
-      if self.text == "\t":
-        self.current_char = None
-        return Token(SULJIBT, self.text)
 
       if self.text == "daesang":
         self.current_char = None
@@ -200,13 +152,14 @@ class Lexer(object):
         self.current_char = None
         return Token(ANNYEONG, self.text)
 
-      if self.text == ">":
-        self.advance()
-        return Token(BLACKPINK, ">")
-
+      #verifica se são caracteres especiais
       if self.text == "\n":
         self.current_char = None
         return Token(SULJIBN, self.text)
+                 
+      if self.text == "\t":
+        self.current_char = None
+        return Token(SULJIBT, self.text)
 
       if self.current_char == ",":
         self.advance()
@@ -216,15 +169,15 @@ class Lexer(object):
         self.advance()
         return Token(DUJEOM, ":")
 
-      if self.text == "<":
+      if self.current_char == ";":
         self.advance()
-        return Token(BTS, "<")
-      
-      if self.text == ">=":
-        self.current_char = None
-        return Token(LOONA, ">=")
+        return Token(SEMIKOLLON, ";")
 
-          
+      #verifica se o lexema encontrado é um operador
+      if self.current_char == "+":
+        self.advance()
+        return Token(INKIGAYO, "+")
+    
       if self.current_char == "-":
         self.advance()
         return Token(MCORE, "-")
@@ -245,9 +198,42 @@ class Lexer(object):
         self.advance()
         return Token(RPAREN, ")")
 
-      if self.current_char == ";":
+      #verifica se o lexema encontrado é uma condicional
+      if self.text == "=":
         self.advance()
-        return Token(SEMIKOLLON, ";")
+        return Token(MELON, "=")
+
+      if self.text == "==":
+        self.current_char = None
+        return Token(KAKAO, "==")
+
+      if self.text == "<=":
+        self.current_char = None
+        return Token(WJSN, "<=")
+      
+      if self.text == "rak":
+        self.current_char = None
+        return Token(RAK, self.text)
+
+      if self.text == "pak":
+        self.current_char = None
+        return Token(PAK, self.text)
+
+      if self.text == "cak":
+        self.current_char = None
+        return Token(CAK, self.text)
+
+      if self.text == "bonsang":
+        self.current_char = None
+        return Token(BONSANG, self.text)
+
+      if self.text == "<":
+        self.advance()
+        return Token(BTS, "<")
+      
+      if self.text == ">=":
+        self.current_char = None
+        return Token(LOONA, ">=")
 
       if self.text == "&&":
         self.current_char = None
@@ -256,11 +242,10 @@ class Lexer(object):
       if self.text == "||":
         self.current_char = None
         return Token(DISBAND, self.text)
-
-      if self.text == "rak":
-        self.current_char = None
-        return Token(RAK, self.text)
-
+      
+      if self.text == ">":
+        self.advance()
+        return Token(BLACKPINK, ">")
       
       #tratamento de erros para não strings
       if '"' not in self.text and "'" not in self.text:
