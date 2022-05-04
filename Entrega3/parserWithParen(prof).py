@@ -135,26 +135,24 @@ class Interpreter(object):
             self.eat(RPAREN)
             return result
 
-    def tipo(self):
-        """tipo : YG | JYP | SM | HYBE"""
-        token = self.current_token
-        if token.type == YG:
-            self.eat(YG)
-            return token.value
-        elif token.type == JYP:
-            self.eat(JYP)
-            return token.value
-        elif token.type == SM:
-            self.eat(SM)
-            return token.value
-        elif token.type == HYBE:
-            self.eat(HYBE)
-            return token.value
+    
 
     
-   
    def term(self):
         """term : factor ((MUL | DIV) factor)*"""
+        result = self.factor()
+
+        while self.current_token.type in (MUL, DIV):
+            token = self.current_token
+            if token.type == MUL:
+                self.eat(MUL)
+                result = result * self.factor()
+            elif token.type == DIV:
+                self.eat(DIV)
+                result = result / self.factor()
+
+    def dec(self):
+        """dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*"""
         result = self.factor()
 
         while self.current_token.type in (MUL, DIV):

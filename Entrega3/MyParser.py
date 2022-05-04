@@ -225,6 +225,33 @@ class Interpreter(object):
             self.eat(HYBE)
             return token.value
 
+      def value(self):
+        """value : OPPA | EONNI | NOONA """
+        token = self.current_token
+        if token.type == OPPA:
+            self.eat(OPPA)
+            return token.value
+        elif token.type == EONNI:
+            self.eat(EONNI)
+            return token.value
+        elif token.type == NOONA:
+            self.eat(NOONA)
+            return token.value
+
+      def condi(self):
+        """condi : RAK | CAK | PAK"""
+        token = self.current_token
+        if token.type == RAK:
+            self.eat(RAK)
+            return token.value
+        elif token.type == CAK:
+            self.eat(CAK)
+            return token.value
+        elif token.type == PAK:
+            self.eat(PAK)
+            return token.value
+    
+    
     def opr(self):
         """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
         token = self.current_token
