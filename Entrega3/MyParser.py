@@ -209,10 +209,6 @@ class Interpreter(object):
     def error(self):
         raise Exception('Invalid syntax')
 
-    
-
-
-
 def main():
     while True:
         try:
