@@ -175,7 +175,32 @@ class Lexer(object):
       if self.current_char == "+":
         self.advance()
         return Token(INKIGAYO, "+")
+        
+      if self.text == "kamsamida":
+        self.current_char = None
+        return Token(KAMSAMIDA, self.text)
+      
+      if self.text == "\t":
+        self.current_char = None
+        return Token(SULJIBT, self.text)
 
+      if self.current_char == ",":
+        self.advance()
+        return Token(BANJEOM, ",")
+
+      if self.current_char == ":":
+        self.advance()
+        return Token(DUJEOM, ":")
+
+      if self.text == "<":
+        self.advance()
+        return Token(BTS, "<")
+      
+      if self.text == ">=":
+        self.current_char = None
+        return Token(LOONA, ">=")
+
+          
       if self.current_char == "-":
         self.advance()
         return Token(MCORE, "-")
