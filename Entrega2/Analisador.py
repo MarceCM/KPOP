@@ -148,6 +148,10 @@ class Lexer(object):
         self.current_char = None
         return Token(HYBE, self.text)
 
+      if self.text == "sm":
+        self.current_char = None
+        return Token(SM, self.text)
+
       if self.text == "annyeong":
         self.current_char = None
         return Token(ANNYEONG, self.text)
