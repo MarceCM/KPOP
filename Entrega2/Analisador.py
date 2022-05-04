@@ -188,7 +188,6 @@ class Lexer(object):
         self.advance()
         return Token(MCOUNTDOWN, "/")
 
-      #verifica se o lexema encontrado é um parenteses (abrindo ou fechando)
       if self.current_char == "(":
         self.advance()
         return Token(LPAREN, "(")
@@ -197,6 +196,23 @@ class Lexer(object):
         self.advance()
         return Token(RPAREN, ")")
 
+      if self.current_char == ";":
+        self.advance()
+        return Token(SEMIKOLLON, ";")
+
+      if self.text == "&&":
+        self.current_char = None
+        return Token(MNET, self.text)
+
+      if self.text == "||":
+        self.current_char = None
+        return Token(DISBAND, self.text)
+
+      if self.text == "rak":
+        self.current_char = None
+        return Token(DISBAND, self.text)
+
+      
       #tratamento de erros para não strings
       if '"' not in self.text and "'" not in self.text:
         for char in self.text:
