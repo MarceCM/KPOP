@@ -184,6 +184,30 @@ class Lexer(object):
         self.current_char = None
         return Token(SULJIBT, self.text)
 
+      if self.text == "daesang":
+        self.current_char = None
+        return Token(DAESANG, self.text)
+
+      if self.text == "comeback":
+        self.current_char = None
+        return Token(COMEBACK, self.text)
+
+      if self.text == "hybe":
+        self.current_char = None
+        return Token(HYBE, self.text)
+
+      if self.text == "annyeong":
+        self.current_char = None
+        return Token(ANNYEONG, self.text)
+
+      if self.text == ">":
+        self.current_char = None
+        return Token(BLACKPINK, self.text)
+
+      if self.text == "\n":
+        self.current_char = None
+        return Token(SULJIBN, self.text)
+
       if self.current_char == ",":
         self.advance()
         return Token(BANJEOM, ",")
