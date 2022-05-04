@@ -201,8 +201,8 @@ class Lexer(object):
         return Token(ANNYEONG, self.text)
 
       if self.text == ">":
-        self.current_char = None
-        return Token(BLACKPINK, self.text)
+        self.advance()
+        return Token(BLACKPINK, ">")
 
       if self.text == "\n":
         self.current_char = None
