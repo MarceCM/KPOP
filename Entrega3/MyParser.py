@@ -225,8 +225,49 @@ class Interpreter(object):
             self.eat(HYBE)
             return token.value
 
-    
+    def opr(self):
+        """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
+        token = self.current_token
+        if token.type == INKIGAYO:
+            self.eat(INKIGAYO)
+            return token.value
+        elif token.type == MCORE:
+            self.eat(MCORE)
+            return token.value
+        elif token.type == MBANK:
+            self.eat(MBANK)
+            return token.value
+        elif token.type == MCOUNTDOWN:
+            self.eat(MCOUNTDOWN)
+            return token.value
 
+      def oprcCond(self):
+        """oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN"""
+        token = self.current_token
+        if token.type == KAKAO:
+            self.eat(KAKAO)
+            return token.value
+        elif token.type == MNET:
+            self.eat(MNET)
+            return token.value
+        elif token.type == DISBAND:
+            self.eat(DISBAND)
+            return token.value
+        elif token.type == BLACKPINK:
+            self.eat(BLACKPINK)
+            return token.value
+        elif token.type == BTS:
+            self.eat(BTS)
+            return token.value
+        elif token.type == LOONA:
+            self.eat(LOONA)
+            return token.value
+        elif token.type == WJSN:
+            self.eat(WJSN)
+            return token.value
+
+
+    
 
 
 def main():

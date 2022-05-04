@@ -1,18 +1,18 @@
 sijag: dec | atr | cont | estrCond | e 
 dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*
-tipo : YG | JYP | SM | HYBE
+tipo : YG | JYP | SM | HYBE - Ok
 iden : BIAS 
 
 atr: iden MELON value (SULJIBN sijag)*
-value : OPPA | EONNI | NOONA 
+value : OPPA | EONNI | NOONA - Ok
 
 cont : value (opr value)* (SULJIBN sijag)*
-opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN 
+opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN - Ok
 
 estrCond:  condi (opcio)* SULJIBT DUJEOM bloco SULJIBT
-condi : RAK | CAK | PAK
+condi : RAK | CAK | PAK -Ok
 opcio :  iden oprCond (iden | value)
-oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN
+oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN -Ok
 bloco: sijag
 
 
