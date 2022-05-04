@@ -201,116 +201,113 @@ class Lexer(object):
     return Token(EOF, None)
 
 class Interpreter(object):
-    def __init__(self, lexer):
-        self.lexer = lexer
-        # set current token to the first token taken from the input
-        self.current_token = self.lexer.get_next_token()
+  def __init__(self, lexer):
+    self.lexer = lexer
+    # set current token to the first token taken from the input
+    self.current_token = self.lexer.get_next_token()
 
-    def error(self):
-        raise Exception('Invalid syntax')
+  def error(self):
+    raise Exception('Invalid syntax')
 
-    def tipo(self):
-        """tipo : YG | JYP | SM | HYBE"""
-        token = self.current_token
-        if token.type == YG:
-            self.eat(YG)
-            return token.value
-        elif token.type == JYP:
-            self.eat(JYP)
-            return token.value
-        elif token.type == SM:
-            self.eat(SM)
-            return token.value
-        elif token.type == HYBE:
-            self.eat(HYBE)
-            return token.value
+  def tipo(self):
+    """tipo : YG | JYP | SM | HYBE"""
+    token = self.current_token
+    if token.type == YG:
+      self.eat(YG)
+      return token.value
+    elif token.type == JYP:
+      self.eat(JYP)
+      return token.value
+    elif token.type == SM:
+      self.eat(SM)
+      return token.value
+    elif token.type == HYBE:
+      self.eat(HYBE)
+      return token.value
 
-      def value(self):
-        """value : OPPA | EONNI | NOONA """
-        token = self.current_token
-        if token.type == OPPA:
-            self.eat(OPPA)
-            return token.value
-        elif token.type == EONNI:
-            self.eat(EONNI)
-            return token.value
-        elif token.type == NOONA:
-            self.eat(NOONA)
-            return token.value
+  def value(self):
+    """value : OPPA | EONNI | NOONA """
+    token = self.current_token
+    if token.type == OPPA:
+      self.eat(OPPA)
+      return token.value
+    elif token.type == EONNI:
+      self.eat(EONNI)
+      return token.value
+    elif token.type == NOONA:
+      self.eat(NOONA)
+      return token.value
 
-      def condi(self):
-        """condi : RAK | CAK | PAK"""
-        token = self.current_token
-        if token.type == RAK:
-            self.eat(RAK)
-            return token.value
-        elif token.type == CAK:
-            self.eat(CAK)
-            return token.value
-        elif token.type == PAK:
-            self.eat(PAK)
-            return token.value
-    
-    
-    def opr(self):
-        """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
-        token = self.current_token
-        if token.type == INKIGAYO:
-            self.eat(INKIGAYO)
-            return token.value
-        elif token.type == MCORE:
-            self.eat(MCORE)
-            return token.value
-        elif token.type == MBANK:
-            self.eat(MBANK)
-            return token.value
-        elif token.type == MCOUNTDOWN:
-            self.eat(MCOUNTDOWN)
-            return token.value
+  def condi(self):
+    """condi : RAK | CAK | PAK"""
+    token = self.current_token
+    if token.type == RAK:
+      self.eat(RAK)
+      return token.value
+    elif token.type == CAK:
+      self.eat(CAK)
+      return token.value
+    elif token.type == PAK:
+      self.eat(PAK)
+      return token.value
+  
+  
+  def opr(self):
+    """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
+    token = self.current_token
+    if token.type == INKIGAYO:
+      self.eat(INKIGAYO)
+      return token.value
+    elif token.type == MCORE:
+      self.eat(MCORE)
+      return token.value
+    elif token.type == MBANK:
+      self.eat(MBANK)
+      return token.value
+    elif token.type == MCOUNTDOWN:
+      self.eat(MCOUNTDOWN)
+      return token.value
 
-      def oprcCond(self):
-        """oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN"""
-        token = self.current_token
-        if token.type == KAKAO:
-            self.eat(KAKAO)
-            return token.value
-        elif token.type == MNET:
-            self.eat(MNET)
-            return token.value
-        elif token.type == DISBAND:
-            self.eat(DISBAND)
-            return token.value
-        elif token.type == BLACKPINK:
-            self.eat(BLACKPINK)
-            return token.value
-        elif token.type == BTS:
-            self.eat(BTS)
-            return token.value
-        elif token.type == LOONA:
-            self.eat(LOONA)
-            return token.value
-        elif token.type == WJSN:
-            self.eat(WJSN)
-            return token.value
-
-
-    
+  def oprcCond(self):
+    """oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN"""
+    token = self.current_token
+    if token.type == KAKAO:
+      self.eat(KAKAO)
+      return token.value
+    elif token.type == MNET:
+      self.eat(MNET)
+      return token.value
+    elif token.type == DISBAND:
+      self.eat(DISBAND)
+      return token.value
+    elif token.type == BLACKPINK:
+      self.eat(BLACKPINK)
+      return token.value
+    elif token.type == BTS:
+      self.eat(BTS)
+      return token.value
+    elif token.type == LOONA:
+      self.eat(LOONA)
+      return token.value
+    elif token.type == WJSN:
+      self.eat(WJSN)
+      return token.value
 
 
 def main():
-    while True:
-        try:
-            #get the input
-            text = input('calc> ')
-        except EOFError:
-            break
-        if not text:
-            continue
-        lexer = Lexer(text)
-        interpreter = Interpreter(lexer)
-        result = interpreter.expr()
-        print(result)
+  while True:
+      try:
+          #get the input
+          text = input('calc> ')
+      except EOFError:
+          break
+      if not text:
+          continue
+      lexer = Lexer(text)
+      interpreter = Interpreter(lexer)
+      result = interpreter.expr()
+      print(result)
 
 
 if __name__ == '__main__':
-    main()
+  main()
