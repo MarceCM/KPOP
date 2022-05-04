@@ -235,7 +235,7 @@ class Lexer(object):
 
       if self.text == "rak":
         self.current_char = None
-        return Token(DISBAND, self.text)
+        return Token(RAK, self.text)
 
       
       #tratamento de erros para não strings
