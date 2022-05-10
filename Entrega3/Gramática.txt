@@ -25,7 +25,6 @@ estrcond
 yasmin:
 dec
 opcio
-opr
 
 marcella:
 bloco

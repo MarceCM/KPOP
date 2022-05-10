@@ -209,29 +209,53 @@ class Interpreter(object):
   def error(self):
     raise Exception('Invalid syntax')
 
+  def eat(self, token_type):
+    if self.current_token.type == token_type:
+      self.current_token = self.lexer.get.get_next_token()
+    else:
+      self.error()
+
+  #def sijag(self):
+    "sijag: dec | atr | cont | estrCond | e "
+
+    # if whatever == dec:
+    #   self.dec()
+    # elif whatever == atr:
+    #   self.atr()
+    # elif whatever == cont:
+    #   self.cont()
+    # elif whatever == cont: 
+    #   self.estrCond()
+    # elif whatever == e:
+    #   self.e()
+  
+  #def dec(self):
+
+  def tipo(self):
+  """tipo : YG | JYP | SM | HYBE"""
+  token = self.current_token
+  if token.type == YG:
+    self.eat(YG)
+    return token.value
+  elif token.type == JYP:
+    self.eat(JYP)
+    return token.value
+  elif token.type == SM:
+    self.eat(SM)
+    return token.value
+  elif token.type == HYBE:
+    self.eat(HYBE)
+    return token.value
+  
   def iden(self):
     """iden: BIAS"""
     token = self.current_token
     if token.type == BIAS:
       self.eat(BIAS)
       return token.value
-  
-  def tipo(self):
-    """tipo : YG | JYP | SM | HYBE"""
-    token = self.current_token
-    if token.type == YG:
-      self.eat(YG)
-      return token.value
-    elif token.type == JYP:
-      self.eat(JYP)
-      return token.value
-    elif token.type == SM:
-      self.eat(SM)
-      return token.value
-    elif token.type == HYBE:
-      self.eat(HYBE)
-      return token.value
 
+  #def atr(self):
+    
   def value(self):
     """value : OPPA | EONNI | NOONA """
     token = self.current_token
@@ -244,6 +268,26 @@ class Interpreter(object):
     elif token.type == NOONA:
       self.eat(NOONA)
       return token.value
+
+  #def cont(self):
+
+  def opr(self):
+  """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
+  token = self.current_token
+  if token.type == INKIGAYO:
+    self.eat(INKIGAYO)
+    return token.value
+  elif token.type == MCORE:
+    self.eat(MCORE)
+    return token.value
+  elif token.type == MBANK:
+    self.eat(MBANK)
+    return token.value
+  elif token.type == MCOUNTDOWN:
+    self.eat(MCOUNTDOWN)
+    return token.value
+
+  #def estrCond(self):
 
   def condi(self):
     """condi : RAK | CAK | PAK"""
@@ -258,22 +302,7 @@ class Interpreter(object):
       self.eat(PAK)
       return token.value
   
-  
-  def opr(self):
-    """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
-    token = self.current_token
-    if token.type == INKIGAYO:
-      self.eat(INKIGAYO)
-      return token.value
-    elif token.type == MCORE:
-      self.eat(MCORE)
-      return token.value
-    elif token.type == MBANK:
-      self.eat(MBANK)
-      return token.value
-    elif token.type == MCOUNTDOWN:
-      self.eat(MCOUNTDOWN)
-      return token.value
+  #def opcio(self):
 
   def oprcCond(self):
     """oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN"""
@@ -299,6 +328,8 @@ class Interpreter(object):
     elif token.type == WJSN:
       self.eat(WJSN)
       return token.value
+
+  #def bloco(self):
 
 
 def main():
