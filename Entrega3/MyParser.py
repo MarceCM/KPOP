@@ -215,19 +215,20 @@ class Interpreter(object):
     else:
       self.error()
 
-  #def sijag(self):
+  def sijag(self):
     "sijag: dec | atr | cont | estrCond | e "
 
-    # if whatever == dec:
-    #   self.dec()
-    # elif whatever == atr:
-    #   self.atr()
-    # elif whatever == cont:
-    #   self.cont()
-    # elif whatever == cont: 
-    #   self.estrCond()
-    # elif whatever == e:
-    #   self.e()
+    token = self.current_token
+    if token.type in [YG,JYP,SM,HYBE]:
+      self.dec()
+    elif token.type == BIAS:
+      self.atr()
+    elif token.type in [OPPA,EONNI,NOONA]:
+      self.cont()
+    elif token.type in [RAK,CAK,PAK]: 
+      self.estrCond()
+    elif token.type == e:
+      self.e()
   
   #def dec(self):
 
