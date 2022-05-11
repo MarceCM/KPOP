@@ -135,6 +135,37 @@ class Interpreter(object):
             self.eat(RPAREN)
             return result
 
+    def dec(self):
+        """dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*"""
+        result = self.tipo()
+        result = result + self.iden()
+
+        while self.current_token == BANJEOM:
+            self.eat(BANJEOM)
+            self.iden()
+
+        while self.current_token == SULJIBN:
+            self.eat(SULJIBN)
+            result += self.sijag()
+
+    def opcio (self):
+        "opcio :  iden oprCond (iden | value)"
+
+        result = self.iden()
+        result = result + self.oprcCond()
+
+        token = self.current_token
+
+        if self.current_token == iden:
+            result += self.iden()
+        
+        elif self.current_token == value:
+            result += self.value()
+        
+        return result
+
+  
+
     
 
     
@@ -151,9 +182,10 @@ class Interpreter(object):
                 self.eat(DIV)
                 result = result / self.factor()
 
+
     def dec(self):
         """dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*"""
-        result = self.factor()
+        result = self.tipo()
 
         while self.current_token.type in (MUL, DIV):
             token = self.current_token
