@@ -98,12 +98,12 @@ class Interpreter(object):
       #return token.value
       #self.eat(MELON)
       #self.value()
-  def atr(self):
-  "iden MELON value (SULJIBN sijag)*"
-    self.iden() = self.value()
-    while self.current_token == SULJIBN:
-      self.eat(SULJIBN)
-      result += self.sijag()
+  #def atr(self):
+  #"iden MELON value (SULJIBN sijag)*"
+    #self.iden() = self.value()
+    #while self.current_token == SULJIBN:
+      #self.eat(SULJIBN)
+      #result += self.sijag()
 
     return result 
     
