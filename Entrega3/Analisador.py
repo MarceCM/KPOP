@@ -123,7 +123,7 @@ class Lexer(object):
       #verifica se o caractere atual eh aspas
       if self.current_char == '"' or self.current_char == "'":
         #retorno um Token do tipo HYBE, com valor referente ao lexema sendo processado caractere a caractere
-        return Token(HYBE, self.string())
+        return Token(NOONA, self.string())
 
       #verifica se o text contem . para ser considerado um float
       if '.' in self.text and '"' not in self.text and "'" not in self.text:

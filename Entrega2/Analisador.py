@@ -113,9 +113,7 @@ class Lexer(object):
       #verifica se o caractere atual eh um digito
       if self.current_char.isdigit() and '.' not in self.text:
         #retorno um Token do tipo YG, com valor referente ao lexema sendo processado caractere a caractere
-        return Token(YG, self.integer())
-      
-      
+        return Token(OPPA, self.integer())
 
       #verificando se o primeiro char é C (booleano)
       if self.text == 'Cham' or self.text == 'Geojis':
@@ -129,7 +127,7 @@ class Lexer(object):
 
       #verifica se o text contem . para ser considerado um float
       if '.' in self.text and '"' not in self.text and "'" not in self.text:
-        return Token(JYP, self.defineFloat())
+        return Token(OPPA, self.defineFloat())
 
       #verifica se são palavras reservadas
       if self.text == "kamsamida":
@@ -151,6 +149,14 @@ class Lexer(object):
       if self.text == "sm":
         self.current_char = None
         return Token(SM, self.text)
+
+      if self.text == "yg":
+        self.current_char = None
+        return Token(YG, self.text)
+
+      if self.text == "jyp":
+        self.current_char = None
+        return Token(JYP, self.text)
 
       if self.text == "annyeong":
         self.current_char = None

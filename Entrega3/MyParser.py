@@ -37,16 +37,15 @@ class Interpreter(object):
     "sijag: dec | atr | cont | estrCond | e "
 
     token = self.current_token
-    print(token)
     if token.type in [YG,JYP,SM,HYBE]:
       result = self.dec()
     elif token.type == BIAS:
       result = self.atr()
     elif token.type in [OPPA,EONNI,NOONA]:
       result = self.cont()
-    elif token.type in [RAK,CAK,PAK]: 
+    elif token.type in [RAK,CAK,PAK]:
       result = self.estrCond()
-    elif token.type == e:
+    elif token.type == 'e':
       result = self.e()
 
     return result
