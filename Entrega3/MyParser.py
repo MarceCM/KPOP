@@ -29,7 +29,7 @@ class Interpreter(object):
 
   def eat(self, token_type):
     if self.current_token.type == token_type:
-      self.current_token = self.lexer.get.get_next_token()
+      self.current_token = self.lexer.get_next_token()
     else:
       self.error()
 
@@ -37,6 +37,7 @@ class Interpreter(object):
     "sijag: dec | atr | cont | estrCond | e "
 
     token = self.current_token
+    print(token)
     if token.type in [YG,JYP,SM,HYBE]:
       result = self.dec()
     elif token.type == BIAS:
@@ -180,15 +181,17 @@ def main():
   while True:
     try:
       #get the input
-      text = input('MyParser> ')
+      list_text = input('MyParser> ')
     except EOFError:
       break
-    if not text:
+    if not list_text:
       continue
-    lexer = Lexer(text)
-    interpreter = Interpreter(lexer)
-    result = interpreter.sijag()
-    print(result)
+    
+    for text in list_text.split(' '):
+      lexer = Lexer(text)
+      interpreter = Interpreter(lexer)
+      result = interpreter.sijag()
+      print(result)
 
 
 if __name__ == '__main__':

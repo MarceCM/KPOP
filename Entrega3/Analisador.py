@@ -8,6 +8,8 @@ RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM
 "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "BIAS","OPPA","EONNI","NOONA", "INKIGAYO", "MCORE", "MBANK", "MCOUNTDOWN", "MELON", "KAKAO", "MNET", "DISBAND", "SULJIBN", "SULJIBT", "SEMIKOLLON", "BANJEOM", "DUJEOM", "BLACKPINK", "BTS", "LOONA", "WJSN", "LPAREN", "RPAREN"
 )
 
+palavras_reservadas = ['yg', 'jyp', 'hybe', 'sm', 'rak', 'pak', 'cak', 'daesang', 'bonsang', 'comeback', 'kamsamida', 'annyeong']
+
 #classe Token, para representar os tokens durante a compilação
 class Token(object):
   def __init__(self, type, value):
@@ -129,6 +131,10 @@ class Lexer(object):
       if '.' in self.text and '"' not in self.text and "'" not in self.text:
         return Token(OPPA, self.defineFloat())
 
+      #verifica se o text é um identifier
+      if '"' not in self.text and "'" not in self.text and not self.text[0].isdigit() and self.text not in palavras_reservadas:
+        return Token(BIAS, self.text)
+
       #verifica se são palavras reservadas
       if self.text == "kamsamida":
         self.current_char = None
@@ -151,7 +157,7 @@ class Lexer(object):
         return Token(SM, self.text)
 
       if self.text == "yg":
-        self.current_char = None
+        self.current_char = len(self.text)
         return Token(YG, self.text)
 
       if self.text == "jyp":
@@ -166,7 +172,7 @@ class Lexer(object):
       if self.text == "\n":
         self.current_char = None
         return Token(SULJIBN, self.text)
-                 
+
       if self.text == "\t":
         self.current_char = None
         return Token(SULJIBT, self.text)
