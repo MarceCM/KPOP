@@ -50,8 +50,23 @@ class Interpreter(object):
 
     return result
   
+
   def dec(self):
-    pass
+    """dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*"""
+    result = self.tipo()
+    result = result + self.iden()
+
+    while self.current_token == BANJEOM:
+      self.eat(BANJEOM)
+      self.iden()
+
+    while self.current_token == SULJIBN:
+      self.eat(SULJIBN)
+      result += self.sijag()
+
+    return result
+
+
 
   def tipo(self):
     """tipo : YG | JYP | SM | HYBE"""
