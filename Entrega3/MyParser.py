@@ -95,8 +95,8 @@ class Interpreter(object):
   
   def atr(self):
   "iden MELON value (SULJIBN sijag)*"
+    self.iden() = self.value()
     result = self.iden()
-    result = self.value()
     while self.current_token == SULJIBN:
       self.eat(SULJIBN)
       result += self.sijag()
