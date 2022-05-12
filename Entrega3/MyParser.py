@@ -1,3 +1,4 @@
+import re
 from Analisador import Lexer
 
 RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM,  HYBE, BIAS, OPPA, EONNI, NOONA, INKIGAYO, MCORE, MBANK, MCOUNTDOWN, MELON, KAKAO, MNET, DISBAND, SULJIBN, SULJIBT, SEMIKOLLON, BANJEOM, DUJEOM, BLACKPINK, BTS, LOONA, WJSN, LPAREN, RPAREN = (
@@ -37,37 +38,36 @@ class Interpreter(object):
     "sijag: dec | atr | cont | estrCond | e "
 
     token = self.current_token
-    print(token)
     if token.type in [YG,JYP,SM,HYBE]:
-      result = self.dec()
+      self.dec()
     elif token.type == BIAS:
-      result = self.atr()
+      self.atr()
     elif token.type in [OPPA,EONNI,NOONA]:
-      result = self.cont()
+      self.cont()
     elif token.type in [RAK,CAK,PAK]:
-      result = self.estrCond()
+      self.estrCond()
     elif token.type == 'e':
-      result = self.e()
+      self.e()
 
-    return result
+    return True
   
-
   def dec(self):
     """dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*"""
-    result = self.tipo()
-    result = result + self.iden()
+    self.tipo()
+    self.iden()
 
-    while self.current_token == BANJEOM:
+    while self.current_token.type == BANJEOM:
       self.eat(BANJEOM)
       self.iden()
 
-    while self.current_token == SULJIBN:
+    while self.current_token.type == SULJIBN:
       self.eat(SULJIBN)
-      result += self.sijag()
+      self.sijag()
 
-    return result
+    if self.current_token.type not in [YG, SM, HYBE, JYP, BIAS, BANJEOM, SULJIBN, EOF]:
+      return False
 
-
+    return True
 
   def tipo(self):
     """tipo : YG | JYP | SM | HYBE"""
@@ -92,21 +92,8 @@ class Interpreter(object):
       self.eat(BIAS)
       return token.value
 
-  #def atr(self):
-  #token = self.current_token
-    #if token.type == BIAS:
-      #self.eat(BIAS)
-      #return token.value
-      #self.eat(MELON)
-      #self.value()
-  #def atr(self):
-  #"iden MELON value (SULJIBN sijag)*"
-    #self.iden() = self.value()
-    #while self.current_token == SULJIBN:
-      #self.eat(SULJIBN)
-      #result += self.sijag()
-
-    return result 
+  def atr():
+    pass
     
   def value(self):
     """value : OPPA | EONNI | NOONA """
@@ -122,6 +109,7 @@ class Interpreter(object):
       return token.value
 
   def cont(self):
+    """cont : value (opr value)* (SULJIBN sijag)*"""
     return self.lexer.text
 
   def opr(self):
@@ -141,7 +129,14 @@ class Interpreter(object):
       return token.value
 
   def estrCond(self):
-    pass
+    """estrCond:  condi (opcio)* DUJEOM SULJIBN SULJIBT bloco"""
+    condicional = self.condi()
+
+    if condicional != 'pak':
+      self.opcio()
+      self.bloco()
+    else:
+      self.bloco()
 
   def condi(self):
     """condi : RAK | CAK | PAK"""
@@ -156,9 +151,17 @@ class Interpreter(object):
       self.eat(PAK)
       return token.value
 
+  def opcio (self):
+    """opcio :  iden oprCond (iden | value)"""
+    self.iden()
+    self.oprcCond()
 
-  def opcio(self):
-    pass
+    if self.current_token.type == BIAS:
+      self.iden()
+    elif self.current_token.type in [OPPA, EONNI, NOONA]:
+      self.value()
+
+    return True
 
 
   def oprcCond(self):
@@ -194,17 +197,19 @@ def main():
   while True:
     try:
       #get the input
-      list_text = input('MyParser> ')
+      text = input('MyParser> ')
     except EOFError:
       break
-    if not list_text:
+    if not text:
       continue
-    
-    for text in list_text.split(' '):
-      lexer = Lexer(text)
-      interpreter = Interpreter(lexer)
-      result = interpreter.sijag()
-      print(result)
+
+    text = re.split('([^a-zA-Z0-9])', text)
+    text = [i for i in text if i != '']
+
+    lexer = Lexer(text)
+    interpreter = Interpreter(lexer)
+    result = interpreter.sijag()
+    print(result)
 
 
 if __name__ == '__main__':

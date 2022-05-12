@@ -8,7 +8,15 @@ RAK, CAK, PAK, DAESANG, BONSANG, COMEBACK, KAMSAMIDA, EOF, ANNYEONG, YG, JYP, SM
 "RAK", "CAK", "PAK", "DAESANG", "BONSANG", "COMEBACK", "KAMSAMIDA", "EOF", "ANNYEONG", "YG", "JYP", "SM", "HYBE", "BIAS","OPPA","EONNI","NOONA", "INKIGAYO", "MCORE", "MBANK", "MCOUNTDOWN", "MELON", "KAKAO", "MNET", "DISBAND", "SULJIBN", "SULJIBT", "SEMIKOLLON", "BANJEOM", "DUJEOM", "BLACKPINK", "BTS", "LOONA", "WJSN", "LPAREN", "RPAREN"
 )
 
-palavras_reservadas = ['yg', 'jyp', 'hybe', 'sm', 'rak', 'pak', 'cak', 'daesang', 'bonsang', 'comeback', 'kamsamida', 'annyeong']
+palavras_reservadas = [
+  'yg', 'jyp', 'hybe', 'sm', 'rak',
+  'pak', 'cak', 'daesang', 'bonsang',
+  'comeback', 'kamsamida', 'annyeong',
+  '"', "'", '+', '-', '*', '/', '=',
+  '==', '&&', '||', '\n', '\t', ';',
+  ',', ':,', '>', '<', '>=', '<=',
+  '(', ')'
+]
 
 #classe Token, para representar os tokens durante a compilação
 class Token(object):
@@ -26,12 +34,23 @@ class Token(object):
 #classe que implementa o analisador lexico
 class Lexer(object):
   def __init__(self, text):
+    self.list = text
     #string do usuario
-    self.text = text #"string"
+    self.text = self.list[0] #"string"
     #indice que marca a posicao do texto (o caractere corrente sendo processado no texto)
     self.pos = 0
     #guarda o caractere que está sendo analisado de fato
     self.current_char = self.text[self.pos]#"
+
+  def get_next_lexer(self):
+    if ',' not in self.list[0] or self.text == ',':
+      self.list.pop(0)
+      if len(self.list) == 0:
+        self.current_char = None
+      else:
+        self.text = self.list[0]
+    else:
+      self.text = self.text[1:]
 
   #para retorno de erro
   def error(self):
@@ -49,16 +68,17 @@ class Lexer(object):
 
   #funcao que pula um espaco em branco e avanca para o proximo caractere
   def skip_whitespace(self):
-    while self.current_char is not None and self.current_char.isspace():
-      self.advance()
+    while self.current_char is not None and self.text.isspace():
+      self.get_next_lexer()
 
   #funcao que verifica se um lexema lido eh um inteiro
   def integer(self):
     #variavel para concatecar numeros
     result = ""
-    while self.current_char is not None and self.current_char.isdigit():
+    if self.current_char is not None and self.text.isdigit():
       result += self.current_char
       self.advance()
+
     return int(result)
   
   #funcao que verifica se um lexema lido eh uma string
@@ -98,169 +118,176 @@ class Lexer(object):
 
     return result if result in ['Cham', 'Geojis'] else None
 
-  def identifier(self):
-    pass
-
-
   #funcao que implementa o "core/nucleo" do analisador lexico
   #vai quebrar a sentença/arquivo de texto em vários tokens, um por vez
   def get_next_token(self):
     #executa enquanto o caractere corrente não for None
     while self.current_char is not None:
       #verifica se o caractere corrente eh um espaco em branco
-      if self.current_char.isspace():
+      if self.text.isspace():
         self.skip_whitespace()
         continue
 
       #verifica se o caractere atual eh um digito
-      if self.current_char.isdigit() and '.' not in self.text:
+      if self.text.isdigit() and '.' not in self.text:
+        valor = self.text
+        self.get_next_lexer()
         #retorno um Token do tipo YG, com valor referente ao lexema sendo processado caractere a caractere
-        return Token(OPPA, self.integer())
+        return Token(OPPA, int(valor))
 
-      #verificando se o primeiro char é C (booleano)
+      #verificando se é booleano
       if self.text == 'Cham' or self.text == 'Geojis':
-        self.current_char = None
-        return Token(EONNI, self.text)
+        bool = self.text
+        self.get_next_lexer()
+        return Token(EONNI, bool)
 
       #verifica se o caractere atual eh aspas
-      if self.current_char == '"' or self.current_char == "'":
+      if '"' in self.text or "'" in self.text:
+        string = self.text
+        self.get_next_lexer()
         #retorno um Token do tipo HYBE, com valor referente ao lexema sendo processado caractere a caractere
-        return Token(NOONA, self.string())
+        return Token(NOONA, string)
 
       #verifica se o text contem . para ser considerado um float
-      if '.' in self.text and '"' not in self.text and "'" not in self.text:
-        return Token(OPPA, self.defineFloat())
+      if self.text == '.' and self.list[list.index(self.text)-1].isdigit() and self.list[list.index(self.text)+1].isdigit():
+        num1 = self.list[list.index(self.text)-1]
+        num2 = self.list[list.index(self.text)+1]
+        valor = float(f'{num1}.{num2}')
+        self.get_next_lexer()
+        return Token(OPPA, valor)
 
       #verifica se o text é um identifier
-      if '"' not in self.text and "'" not in self.text and not self.text[0].isdigit() and self.text not in palavras_reservadas:
-        return Token(BIAS, self.text)
+      if not self.text[0].isdigit() and self.text not in palavras_reservadas:
+        token_value = self.text.replace(',', '')
+        self.get_next_lexer()
+        return Token(BIAS, token_value)
 
       #verifica se são palavras reservadas
       if self.text == "kamsamida":
-        self.current_char = None
-        return Token(KAMSAMIDA, self.text)
+        self.get_next_lexer()
+        return Token(KAMSAMIDA, "kamsamida")
 
       if self.text == "daesang":
-        self.current_char = None
-        return Token(DAESANG, self.text)
+        self.get_next_lexer()
+        return Token(DAESANG, "daesang")
 
       if self.text == "comeback":
-        self.current_char = None
-        return Token(COMEBACK, self.text)
+        self.get_next_lexer()
+        return Token(COMEBACK, "comeback")
 
       if self.text == "hybe":
-        self.current_char = None
-        return Token(HYBE, self.text)
+        self.get_next_lexer()
+        return Token(HYBE, "hybe")
 
       if self.text == "sm":
-        self.current_char = None
-        return Token(SM, self.text)
+        self.get_next_lexer()
+        return Token(SM, "sm")
 
-      if self.text == "yg":
-        self.current_char = len(self.text)
-        return Token(YG, self.text)
+      if self.text == 'yg':
+        self.get_next_lexer()
+        return Token(YG, 'yg')
 
       if self.text == "jyp":
-        self.current_char = None
-        return Token(JYP, self.text)
+        self.get_next_lexer()
+        return Token(JYP, "jyp")
 
       if self.text == "annyeong":
-        self.current_char = None
-        return Token(ANNYEONG, self.text)
+        self.get_next_lexer()
+        return Token(ANNYEONG, "annyeong")
 
       #verifica se são caracteres especiais
       if self.text == "\n":
-        self.current_char = None
-        return Token(SULJIBN, self.text)
+        self.get_next_lexer()
+        return Token(SULJIBN, "\n")
 
       if self.text == "\t":
-        self.current_char = None
-        return Token(SULJIBT, self.text)
+        self.get_next_lexer()
+        return Token(SULJIBT, "\t")
 
-      if self.current_char == ",":
-        self.advance()
+      if self.text == ",":
+        self.get_next_lexer()
         return Token(BANJEOM, ",")
 
-      if self.current_char == ":":
-        self.advance()
+      if self.text == ":":
+        self.get_next_lexer()
         return Token(DUJEOM, ":")
 
-      if self.current_char == ";":
-        self.advance()
+      if self.text == ";":
+        self.get_next_lexer()
         return Token(SEMIKOLLON, ";")
 
       #verifica se o lexema encontrado é um operador
-      if self.current_char == "+":
-        self.advance()
+      if self.text == "+":
+        self.get_next_lexer()
         return Token(INKIGAYO, "+")
     
-      if self.current_char == "-":
-        self.advance()
+      if self.text == "-":
+        self.get_next_lexer()
         return Token(MCORE, "-")
 
-      if self.current_char == "*":
-        self.advance()
+      if self.text == "*":
+        self.get_next_lexer()
         return Token(MBANK, "*")
 
-      if self.current_char == "/":
-        self.advance()
+      if self.text == "/":
+        self.get_next_lexer()
         return Token(MCOUNTDOWN, "/")
 
-      if self.current_char == "(":
-        self.advance()
+      if self.text == "(":
+        self.get_next_lexer()
         return Token(LPAREN, "(")
 
-      if self.current_char == ")":
-        self.advance()
+      if self.text == ")":
+        self.get_next_lexer()
         return Token(RPAREN, ")")
 
       #verifica se o lexema encontrado é uma condicional
       if self.text == "=":
-        self.advance()
+        self.get_next_lexer()
         return Token(MELON, "=")
 
       if self.text == "==":
-        self.current_char = None
+        self.get_next_lexer()
         return Token(KAKAO, "==")
 
       if self.text == "<=":
-        self.current_char = None
+        self.get_next_lexer()
         return Token(WJSN, "<=")
       
       if self.text == "rak":
-        self.current_char = None
-        return Token(RAK, self.text)
+        self.get_next_lexer()
+        return Token(RAK, "rak")
 
       if self.text == "pak":
-        self.current_char = None
-        return Token(PAK, self.text)
+        self.get_next_lexer()
+        return Token(PAK, "pak")
 
       if self.text == "cak":
-        self.current_char = None
-        return Token(CAK, self.text)
+        self.get_next_lexer()
+        return Token(CAK, "cak")
 
       if self.text == "bonsang":
-        self.current_char = None
-        return Token(BONSANG, self.text)
+        self.get_next_lexer()
+        return Token(BONSANG, "bonsang")
 
       if self.text == "<":
-        self.advance()
+        self.get_next_lexer()
         return Token(BTS, "<")
       
       if self.text == ">=":
-        self.current_char = None
+        self.get_next_lexer()
         return Token(LOONA, ">=")
 
       if self.text == "&&":
-        self.current_char = None
-        return Token(MNET, self.text)
+        self.get_next_lexer()
+        return Token(MNET, "&&")
 
       if self.text == "||":
-        self.current_char = None
-        return Token(DISBAND, self.text)
+        self.get_next_lexer()
+        return Token(DISBAND, "||")
       
       if self.text == ">":
-        self.advance()
+        self.get_next_lexer()
         return Token(BLACKPINK, ">")
       
       #tratamento de erros para não strings
