@@ -92,8 +92,19 @@ class Interpreter(object):
       self.eat(BIAS)
       return token.value
 
-  def atr():
-    pass
+  
+  def atr(self):
+    "iden MELON value (SULJIBN sijag)*"
+    self.iden()
+    self.value()
+
+    result = self.iden()
+    
+    while self.current_token == SULJIBN:
+      self.eat(SULJIBN)
+      result += self.sijag()
+
+    return result 
     
   def value(self):
     """value : OPPA | EONNI | NOONA """
