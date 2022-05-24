@@ -27,7 +27,22 @@ class BinOp(AST):
     self.token = self.op = op
     self.right = right
 
+class Declrc(AST):
+  def __init__(self, left, right):
+    self.left = left
+    self.right = right
+
 class Num(AST):
+  def __init__(self, token):
+    self.token = token
+    self.value = token.value
+
+class Identifier(AST):
+  def __init__(self, token):
+    self.token = token
+    self.value = token.value
+
+class Var(AST):
   def __init__(self, token):
     self.token = token
     self.value = token.value
@@ -66,8 +81,8 @@ class Parser(object):
   
   def dec(self):
     """dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*"""
-    self.tipo()
-    self.iden()
+    node_left = self.tipo()
+    node_right = self.iden()
 
     while self.current_token.type == BANJEOM:
       self.eat(BANJEOM)
@@ -77,33 +92,32 @@ class Parser(object):
       self.eat(SULJIBN)
       self.sijag()
 
-    if self.current_token.type not in [YG, SM, HYBE, JYP, BIAS, BANJEOM, SULJIBN, EOF]:
-      return False
+    node = Declrc(left=node_left, right=node_right)
 
-    return True
+    return node
 
   def tipo(self):
     """tipo : YG | JYP | SM | HYBE"""
     token = self.current_token
     if token.type == YG:
       self.eat(YG)
-      return token.value
+      return Var(token)
     elif token.type == JYP:
       self.eat(JYP)
-      return token.value
+      return Var(token)
     elif token.type == SM:
       self.eat(SM)
-      return token.value
+      return Var(token)
     elif token.type == HYBE:
       self.eat(HYBE)
-      return token.value
-  
+      return Var(token)
+
   def iden(self):
     """iden: BIAS"""
     token = self.current_token
     if token.type == BIAS:
       self.eat(BIAS)
-      return token.value
+      return Identifier(token)
 
   def atr(self):
     "iden MELON value (SULJIBN sijag)*"
@@ -117,7 +131,7 @@ class Parser(object):
       result += self.sijag()
 
     return result 
-    
+
   def value(self):
     """value : OPPA | EONNI | NOONA """
     token = self.current_token
