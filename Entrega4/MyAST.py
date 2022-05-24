@@ -105,7 +105,6 @@ class Parser(object):
       self.eat(BIAS)
       return token.value
 
-  
   def atr(self):
     "iden MELON value (SULJIBN sijag)*"
     self.iden()
@@ -206,7 +205,6 @@ class Parser(object):
 
     return True
 
-
   def oprcCond(self):
     """oprCond: KAKAO | MNET | DISBAND | BLACKPINK | BTS | LOONA | WJSN"""
     token = self.current_token
@@ -235,6 +233,9 @@ class Parser(object):
   def bloco(self):
     self.sijag()
 
+  def parse(self):
+    return self.sijag()
+
 class Interpreter(object):
   def __init__(self, parser):
     self.parser = parser
@@ -242,11 +243,12 @@ class Interpreter(object):
   def interpret(self):
     tree = self.parser.parse()
     return tree
+
 def main():
   while True:
     try:
       #get the input
-      text = input('MyParser> ')
+      text = input('MyCompiler> ')
     except EOFError:
       break
     if not text:
@@ -256,9 +258,12 @@ def main():
     text = [i for i in text if i != '']
 
     lexer = Lexer(text)
-    interpreter = Interpreter(lexer)
-    result = interpreter.sijag()
+    parser = Parser(lexer)
+    interpreter = Interpreter(parser)
+    result = interpreter.interpret()
     print(result)
+    print(result.left)
+    print(result.right)
 
 if __name__ == '__main__':
   main()
