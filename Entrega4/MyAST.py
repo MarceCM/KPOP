@@ -124,33 +124,52 @@ class Parser(object):
     token = self.current_token
     if token.type == OPPA:
       self.eat(OPPA)
-      return token.value
+      return Num(token)
     elif token.type == EONNI:
       self.eat(EONNI)
-      return token.value
+      return Num(token)
     elif token.type == NOONA:
       self.eat(NOONA)
-      return token.value
+      return Num(token)
 
   def cont(self):
     """cont : value (opr value)* (SULJIBN sijag)*"""
-    return self.lexer.text
+    node_left = self.value()
+    node_opr = self.opr()
+
+    while self.current_token.type in [INKIGAYO, MCORE, MBANK, MCOUNTDOWN]:
+      if self.current_token.type == INKIGAYO:
+        self.eat(INKIGAYO)
+        pass
+      elif self.current_token.type == MCORE:
+        self.eat(MCORE)
+        pass
+      elif self.current_token.type == MBANK:
+        self.eat(MBANK)
+        pass
+      elif self.current_token.type == MCOUNTDOWN:
+        self.eat(MCOUNTDOWN)
+        pass
+
+      node = BinOp(left=node_left, op=node_opr, right=self.value())
+
+    return node
 
   def opr(self):
     """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
     token = self.current_token
     if token.type == INKIGAYO:
       self.eat(INKIGAYO)
-      return token.value
+      return Num(token)
     elif token.type == MCORE:
       self.eat(MCORE)
-      return token.value
+      return Num(token)
     elif token.type == MBANK:
       self.eat(MBANK)
-      return token.value
+      return Num(token)
     elif token.type == MCOUNTDOWN:
       self.eat(MCOUNTDOWN)
-      return token.value
+      return Num(token)
 
   def estrCond(self):
     """estrCond:  condi (opcio)* DUJEOM SULJIBN SULJIBT bloco"""
