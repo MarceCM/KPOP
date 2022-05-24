@@ -220,7 +220,7 @@ def main():
   while True:
     try:
       try:
-        text = raw_input('myCompiler> ')
+        text = input('myCompiler> ')
       except NameError:  # Python3
         text = input('myCompiler> ')
     except EOFError:
