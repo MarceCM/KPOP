@@ -52,17 +52,17 @@ class Parser(object):
 
     token = self.current_token
     if token.type in [YG,JYP,SM,HYBE]:
-      self.dec()
+      node = self.dec()
     elif token.type == BIAS:
-      self.atr()
+      node = self.atr()
     elif token.type in [OPPA,EONNI,NOONA]:
-      self.cont()
+      node = self.cont()
     elif token.type in [RAK,CAK,PAK]:
-      self.estrCond()
+      node = self.estrCond()
     elif token.type == 'e':
-      self.e()
+      node = self.e()
 
-    return True
+    return node
   
   def dec(self):
     """dec : tipo iden (BANJEOM iden)* (SULJIBN sijag)*"""
@@ -134,41 +134,37 @@ class Parser(object):
   def cont(self):
     """cont : value (opr value)* (SULJIBN sijag)*"""
     node_left = self.value()
-    node_opr = self.opr()
 
     while self.current_token.type in [INKIGAYO, MCORE, MBANK, MCOUNTDOWN]:
-      if self.current_token.type == INKIGAYO:
+      token = self.current_token
+      if token.type == INKIGAYO:
         self.eat(INKIGAYO)
-        pass
-      elif self.current_token.type == MCORE:
+      elif token.type == MCORE:
         self.eat(MCORE)
-        pass
-      elif self.current_token.type == MBANK:
+      elif token.type == MBANK:
         self.eat(MBANK)
-        pass
-      elif self.current_token.type == MCOUNTDOWN:
+      elif token.type == MCOUNTDOWN:
         self.eat(MCOUNTDOWN)
-        pass
 
-      node = BinOp(left=node_left, op=node_opr, right=self.value())
+      node = BinOp(left=node_left, op=token, right=self.value())
 
-    return node
+      return node
 
   def opr(self):
     """opr: INKIGAYO | MCORE | MBANK | MCOUNTDOWN"""
     token = self.current_token
     if token.type == INKIGAYO:
       self.eat(INKIGAYO)
-      return Num(token)
+      return token
     elif token.type == MCORE:
       self.eat(MCORE)
-      return Num(token)
+      return token
     elif token.type == MBANK:
       self.eat(MBANK)
-      return Num(token)
+      return token
     elif token.type == MCOUNTDOWN:
       self.eat(MCOUNTDOWN)
-      return Num(token)
+      return token
 
   def estrCond(self):
     """estrCond:  condi (opcio)* DUJEOM SULJIBN SULJIBT bloco"""
