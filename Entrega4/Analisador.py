@@ -149,9 +149,9 @@ class Lexer(object):
         return Token(NOONA, string)
 
       #verifica se o text contem . para ser considerado um float
-      if self.text == '.' and self.list[list.index(self.text)-1].isdigit() and self.list[list.index(self.text)+1].isdigit():
-        num1 = self.list[list.index(self.text)-1]
-        num2 = self.list[list.index(self.text)+1]
+      if self.text == '.' and self.list[self.list.index(self.text)-1].isdigit() and self.list[self.list.index(self.text)+1].isdigit():
+        num1 = self.list[self.list.index(self.text)-1]
+        num2 = self.list[self.list.index(self.text)+1]
         valor = float(f'{num1}.{num2}')
         self.get_next_lexer()
         return Token(OPPA, valor)

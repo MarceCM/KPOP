@@ -43,6 +43,16 @@ class Num(AST):
     self.token = token
     self.value = token.value
 
+class Bool(AST):
+  def __init__(self, token):
+    self.token = token
+    self.value = token.value
+
+class String(AST):
+  def __init__(self, token):
+    self.token = token
+    self.value = token.value
+
 class Identifier(AST):
   def __init__(self, token):
     self.token = token
@@ -128,7 +138,7 @@ class Parser(object):
   def atr(self):
     "iden MELON value (SULJIBN sijag)*"
     node_left = self.iden()
-    
+
     if self.current_token.type == MELON:
       token = self.current_token
       self.eat(MELON)
@@ -143,16 +153,15 @@ class Parser(object):
   def value(self):
     """value : OPPA | EONNI | NOONA """
     token = self.current_token
-    print(token)
     if token.type == OPPA:
       self.eat(OPPA)
       return Num(token)
     elif token.type == EONNI:
       self.eat(EONNI)
-      return Num(token)
+      return Bool(token)
     elif token.type == NOONA:
       self.eat(NOONA)
-      return Num(token)
+      return String(token)
 
   def cont(self):
     """cont : value (opr value)* (SULJIBN sijag)*"""
@@ -273,7 +282,7 @@ def main():
     if not text:
       continue
 
-    text = re.split('([^a-zA-Z0-9])', text)
+    text = re.split('([^a-z_A-Z0-9])', text)
     text = [i for i in text if i != '']
 
     lexer = Lexer(text)
