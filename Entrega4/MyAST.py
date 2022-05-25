@@ -32,6 +32,12 @@ class Declrc(AST):
     self.left = left
     self.right = right
 
+class Atrbc(AST):
+  def __init__(self, left, eq, right):
+    self.left = left
+    self.token = self.eq = eq
+    self.right = right
+
 class Num(AST):
   def __init__(self, token):
     self.token = token
@@ -121,20 +127,23 @@ class Parser(object):
 
   def atr(self):
     "iden MELON value (SULJIBN sijag)*"
-    self.iden()
-    self.value()
-
-    result = self.iden()
+    node_left = self.iden()
     
-    while self.current_token == SULJIBN:
-      self.eat(SULJIBN)
-      result += self.sijag()
+    if self.current_token.type == MELON:
+      token = self.current_token
+      self.eat(MELON)
+      node_right = self.value()
+    else:
+      raise(self.error)
 
-    return result 
+    node = Atrbc(left=node_left, eq=token, right=node_right)
+
+    return node 
 
   def value(self):
     """value : OPPA | EONNI | NOONA """
     token = self.current_token
+    print(token)
     if token.type == OPPA:
       self.eat(OPPA)
       return Num(token)
